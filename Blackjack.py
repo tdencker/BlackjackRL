@@ -77,7 +77,7 @@ if __name__ == "__main__":
     monte_carlo = mc.MonteCarloES(200, 2, transition_state)
     for idx in range(0, 200):
         monte_carlo.policies[idx] = HIT if states[idx][2] >= 20 else STICK
-    monte_carlo.run(500000)
+    monte_carlo.run(5000)
     print(monte_carlo.policies[100:].reshape(10,10))
     print()
     print(monte_carlo.policies[:100].reshape(10,10))

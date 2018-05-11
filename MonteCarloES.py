@@ -33,7 +33,7 @@ class MonteCarloES:
     def recalculate_state_action_values(self, episode, total_reward):
         for state, action, reward in episode:
             self.state_action_rewards[state][action] += total_reward, 1
-            self.state_action_values[state][action] = self.state_action_rewards[state][action][0] \
+            self.state_action_values[state][action] = float(self.state_action_rewards[state][action][0]) \
                 / self.state_action_rewards[state][action][1]
             total_reward -= reward
 
