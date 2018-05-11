@@ -50,19 +50,32 @@ def print_results(policies):
     for row in policies[:100].reshape(10,10):
         steps_no_ace.append(np.argmax(row == 0) + 11)
 
+    plt.figure(figsize=(12,6))
     plt.subplot(1,2,1)
     axes = plt.gca()
     axes.set_ylim([10,22])
+    axes.yaxis.set_ticks(np.arange(10,23,1))
+    plt.xlabel("Dealer showing")
+    plt.ylabel("Player sum")
+    plt.suptitle("Policies for Blackjack", fontsize = 16)
+    plt.title("No usable ace", fontsize = 14)
+    plt.text(0.5,0.8, "STICK", fontsize=12, horizontalalignment="center", transform=axes.transAxes)
+    plt.text(0.5,0.2, "HIT", fontsize=12, horizontalalignment="center", transform=axes.transAxes)
     plt.step(deck_values, steps_no_ace, where="mid")
 
     steps_with_ace = []
     for row in policies[100:].reshape(10,10):
         steps_with_ace.append(np.argmax(row == 0) + 11)
     plt.subplot(1,2,2)
+    plt.title("Usable ace", fontsize = 14)
+    plt.xlabel("Dealer showing")
+    plt.ylabel("Player sum")
     axes = plt.gca()
     axes.set_ylim([10,22])
+    axes.yaxis.set_ticks(np.arange(10,23,1))
+    plt.text(0.5,0.8, "STICK", fontsize=12, horizontalalignment="center", transform=axes.transAxes)
+    plt.text(0.8,0.2, "HIT", fontsize=12, horizontalalignment="center", transform=axes.transAxes)
     plt.step(deck_values, steps_with_ace, where="mid")
-
     plt.show()
 
 if __name__ == "__main__":
@@ -77,7 +90,7 @@ if __name__ == "__main__":
     monte_carlo = mc.MonteCarloES(200, 2, transition_state)
     for idx in range(0, 200):
         monte_carlo.policies[idx] = HIT if states[idx][2] >= 20 else STICK
-    monte_carlo.run(5000)
+    monte_carlo.run(5000000)
     print(monte_carlo.policies[100:].reshape(10,10))
     print()
     print(monte_carlo.policies[:100].reshape(10,10))
